@@ -11,16 +11,23 @@ class LegoCatrgoryChoiceField(forms.ModelChoiceField):
     pass
 
 
-class LegoAdmin(admin.ModelAdmin):
+class LegoZestawyAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':
-            return LegoCatrgoryChoiceField(Category.objects.filter(slug='legozestawy'))
+            return LegoCatrgoryChoiceField(Category.objects.filter(slug='lego_zestawy'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+class LegoFiguresAdmin(admin.ModelAdmin):
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'category':
+            return LegoCatrgoryChoiceField(Category.objects.filter(slug='Lego_figures'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(Category)
-admin.site.register(LegoZestawy, LegoAdmin)
-admin.site.register(LegoFigure)
+admin.site.register(LegoZestawy, LegoZestawyAdmin)
+admin.site.register(LegoFigure, LegoFiguresAdmin)
 admin.site.register(Customer)
 admin.site.register(Cart)
 admin.site.register(CartProduct)
