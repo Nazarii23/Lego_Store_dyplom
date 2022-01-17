@@ -2,27 +2,26 @@ from django.contrib import admin
 from django import  forms
 # Register your models here.
 from .models import *
+from django.forms import ModelChoiceField
 
 
 
 
-
-class LegoCatrgoryChoiceField(forms.ModelChoiceField):
-    pass
 
 
 class LegoZestawyAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':
-            return LegoCatrgoryChoiceField(Category.objects.filter(slug='lego_zestawy'))
+            return ModelChoiceField(Category.objects.filter(slug='lego_zestawy'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 class LegoFiguresAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':
-            return LegoCatrgoryChoiceField(Category.objects.filter(slug='Lego_figures'))
+            return ModelChoiceField(Category.objects.filter(slug='Lego_figures'))
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 admin.site.register(Category)
